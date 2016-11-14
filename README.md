@@ -1,2 +1,3 @@
-# Shoplift.ninja
-This is a marketplace where university students can buy and sell common items like books, smartphones, and laptops through paypal you can buy and sell goods through paypal. We didn't have any money at time of creation and don't now so don't contact us about any problems! Also this was made when our team was new to development so don't report any issues or anything please. Lastly, if you want to view a post, great! But if you want to make a post, post a comment, or buy anything you need to make an account :)
+# IS448
+
+This is a market-place where you can buy and sell goods through paypal, the buyer pays the shipping... and if there are any issues then go to paypal because we have no money!!! We are also pretty terrible developers(besides Kam) so if there are any issues with the site then please do not report them. also do not attack us with HTML injection, SQL injection, DDOS, or anything else because it is very likely we will expose database information and you will be able to drop all our tables. You may view posts as a guest, but if you want to post, comment, or buy then you will have to make an account.
