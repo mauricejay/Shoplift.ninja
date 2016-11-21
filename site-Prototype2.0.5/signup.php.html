@@ -1,0 +1,125 @@
+<?php include 'core/init.php'; ?>
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <?php include 'core/includes/head.php'; ?>
+</head>
+
+<body>
+    <?php include 'header.php'; ?>
+
+        <?php 
+
+            if(empty($_POST) === false){
+                $required_fields = array("first_name","last_name","password","password_again","email");
+                    //echo '<pre>', print_r($_POST, true), '</pre>';
+        
+                foreach($_POST as $key=>$value){
+                    if(empty($value) && in_array($key, $required_fields) === true){
+                        $errors[] = "Please fill in each field";
+                        break 1;
+                    }
+                }
+                if(empty($errors) === true){
+                    if(user_exists($_POST['email']) === true){
+                        $errors[] = "The email " . htmlentities($_POST['email']) . " is already taken";
+                    }
+                    if(preg_match("/\\s/", $_POST['email']) == true){
+                        $errors[] = "Your email cannot contain spaces";
+                    }
+                    // Make sure to preg_match email validation ? or does materalize do that?
+                    if(strlen($_POST['password']) <= 6){
+                        $errors[] = 'Your password must be at least 8 charcters';
+                    }
+                    if($_POST['password'] !== $_POST['password_again']){
+                        $errors[] = 'Your passwords do not match';
+                    }
+                }
+        
+            }
+                // Get errors @ top
+                //print_r($errors);
+                //echo 'hello world';
+    ?>
+
+                <div class="container">
+                    <div class="row col s6 card-panel white accent-3 animated fadeIn" style="color:black;">
+                        <h4 class="center" id="register">Register</h4>
+                        <p class="center" id="join">Join to our community now !</p>
+
+            <?php
+                if(empty($_POST) === false && empty($errors) === true){
+                            // Register user and redirect
+                    $register_data = array(
+                        'email'             =>      $_POST['email'],
+                        'first_name'        =>      $_POST['first_name'],
+                        'last_name'         =>      $_POST['last_name'],
+                        'username'          =>      $_POST['username'],
+                        'password'          =>      $_POST['password']
+                        );
+    
+                                //echo 'hello world';
+                    echo register_user($register_data);
+                                // redirect
+                                //header('location:signup.php?success');
+                    exit();
+                                //print_r($register_data);
+    
+                }
+    
+                else if(empty($errors) === false){
+                            // Output errors OMG look how easy it is :D b/c core/general.php function :D
+                    echo output_errors($errors);
+                }
+            ?>
+
+                            <form class="col s12" name="signUpForm" action="" method="POST">
+                                <div class="row">
+                                    <div class="input-field col s3 removeIf">
+                                        <!--<i class="material-icons prefix">account_circle</i>-->
+                                        <input id="first_name" name="first_name" type="text" class="validate">
+                                        <label for="first_name" class="black-text">First Name</label>
+                                    </div>
+                                    <div class="input-field col s3 removeIf">
+                                        <input id="last_name" type="text" class="validate" name="last_name">
+                                        <label for="last_name" class="black-text">Last Name</label>
+                                    </div>
+                                    <div class="input-field col s6 removeIf">
+                                        <input id="username" type="text" class="validate" name="username" onkeyup="checkUsers()">
+                                        <label for="username" class="black-text">Username</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s6 addIf">
+                                        <input id="password" type="password" class="validate" name="password">
+                                        <label for="password" class="black-text">Password</label>
+                                    </div>
+                                    <div class="input-field col s6 removeIf">
+                                        <input id="password" type="password" class="validate" name="password_again">
+                                        <label for="password" class="black-text">Re-enter Password</label>
+                                    </div>
+                                </div>
+                                <div class="input-field col s12">
+                                    <input id="email" type="email" class="validate" name="email" onfocusout="checkUsers()">
+                                    <label for="email" class="black-text">Email</label>
+                                </div>
+                                <button class="btn waves-effect waves-light right blue accent-1" id="registerBtn" type="submit" name="action" value="Register">Register Now
+                                    <i class="material-icons left">send</i>
+                                </button>
+                                <div class="input-field col s12">
+                                    <p class="margin right medium-small sign-up">Already have an account? <a id="login" href="./login.php" style="color:#8a8add;">Login</a></p>
+                                </div>
+                            </form>
+                    </div>
+                </div>
+                <!-- Compiled and minified JavaScript -->
+                <script src="materialize/js/materialize.min.js"></script>
+                <script type="text/javascript" src="main.js"></script>
+                <script>
+                    $(document).ready(function () {
+                        $(".button-collapse").sideNav();
+                    });
+                </script>
+
+    </html>
